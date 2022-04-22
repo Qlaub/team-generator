@@ -1,0 +1,28 @@
+{
+  "name": "team-generator",
+  "version": "1.0.0",
+  "description": "Generate a webpage that displays a work team's basic info",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Qlaub/team-generator.git"
+  },
+  "author": "Qlaub",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Qlaub/team-generator/issues"
+  },
+  "homepage": "https://github.com/Qlaub/team-generator#readme",
+  "dependencies": {
+    "inquirer": "^8.2.2"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
+  }
+}
