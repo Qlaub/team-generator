@@ -4,6 +4,8 @@ const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 const inquirer = require('inquirer');
 const fs = require('fs');
+const generateHtml = require('./utils/generateHtml');
+const { rejects } = require('assert');
 
 let teamData = {
   manager: undefined,
@@ -227,13 +229,67 @@ function addEmployeePrompts() {
 
     return addEmployeePrompts();
   })
-
 }
 
-// brings up add employee prompt
-// user chooses
-// if (engineer), else if (intern), else (done) statement to bring user to where they want to go
-// if and else if statements have .then() recursively calling addEmployeePrompts at the end
+function writeFile(html) {
+  return new Promise((resolve, reject) => {
+    fs.writeFile('./dist/index.html', html, err => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve({
+        ok: true,
+        message: 'index.html created'
+      });
+    });
+  });
+};
+
+function copyFiles() {
+  return new Promise((resolve, reject) => {
+    fs.copyFile('./src/assets/css/style.css', './dist/assets/css/style.css', err => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve({
+        ok: true,
+        message: 'style.css copied to dist/assets/css'
+      })
+    })
+    fs.copyFile('./src/assets/images/engineer-icon.svg', './dist/assets/images/engineer-icon.svg', err => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve({
+        ok: true,
+        message: 'engineer icon copied to dist/assets/images'
+      })
+    })
+    fs.copyFile('./src/assets/images/manager-icon.svg', './dist/assets/images/manager-icon.svg', err => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve({
+        ok: true,
+        message: 'manager icon copied to dist/assets/images'
+      })
+    })
+    fs.copyFile('./src/assets/images/intern-icon.svg', './dist/assets/images/intern-icon.svg', err => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve({
+        ok: true,
+        message: 'intern icon copied to dist/assets/images'
+      })
+    })
+  })
+}
 
 function init() {
   return inquirer.prompt(managerQuestions);
@@ -246,5 +302,14 @@ init()
   })
   .then(addEmployeePrompts)
   .then(() => {
-    console.log(teamData);
+    return generateHtml(teamData);
+  })
+  .then(html => {
+    return writeFile(html);
+  })
+  .then(() => {
+    return copyFiles();
+  })
+  .catch(err => {
+    console.log(err);
   })
