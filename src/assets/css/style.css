@@ -1,0 +1,59 @@
+/* GENERAL */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  background-color: #e84756;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+  font-size: 56px;
+}
+
+/* MAIN */
+
+main {
+  margin: 50px 10vw;
+}
+
+/* CARD */
+card {
+  display: inline-block;
+  box-shadow: 3px 3px 5px black;
+  width: 250px;
+  height: 330px;
+  margin: 20px;
+  background-color: #f6f7f9;
+}
+
+.title-container {
+  background-color: #0077f7;
+  color: white;
+}
+
+.detail-container {
+  padding: 25px 10px;
+}
+
+.id,
+.email,
+.github,
+.office,
+.school {
+  background-color: white;
+}
+
