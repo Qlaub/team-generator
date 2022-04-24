@@ -28,14 +28,15 @@ h1 {
 
 main {
   margin: 50px 10vw;
+  text-align: center;
 }
 
 /* CARD */
 card {
   display: inline-block;
   box-shadow: 3px 3px 5px black;
-  width: 250px;
-  height: 330px;
+  width: 300px;
+  height: 360px;
   margin: 20px;
   background-color: #f6f7f9;
 }
@@ -43,10 +44,20 @@ card {
 .title-container {
   background-color: #0077f7;
   color: white;
+  padding: 18px;
+  text-align: left;
+}
+.card-name {
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 20px;
 }
 
 .detail-container {
-  padding: 25px 10px;
+  padding: 35px 15px;
+  text-align: left;
 }
 
 .id,
@@ -55,5 +66,22 @@ card {
 .office,
 .school {
   background-color: white;
+  height: 65px;
+  border: rgb(207, 207, 207) solid 1px;
+  border-top: none;
+  padding: 23px;
 }
 
+.id {
+  border-top: rgb(207, 207, 207) solid 1px;
+}
+
+.title {
+  display: flex;
+}
+
+.title-icon {
+  height: 22px;
+  width: 22px;
+  margin-right: 8px;
+}
