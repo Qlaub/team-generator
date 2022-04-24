@@ -1,18 +1,23 @@
-function generateManagerHtml(data) {
+function generateManagerHtml(manager) {
   return `<card id="manager">
       <div class="title-container">
-        <h2 class="card-name">${data.name}</h2>
+        <h2 class="card-name">${manager.getName()}</h2>
         <div class="title"><img src="./assets/images/manager-icon.svg" alt="" class="title-icon">Manager</div>
       </div>
       <div class="detail-container">
-        <div class="id">ID: ${data.id}</div>
-        <div class="email">Email: <a href="mailto: ${data.email}">${data.email}</a></div>
-        <div class="office">Office number: ${data.office}</div>
+        <div class="id">ID: ${manager.getId()}</div>
+        <div class="email">Email: <a href="mailto: ${manager.getEmail()}">${manager.getEmail()}</a></div>
+        <div class="office">Office number: ${manager.officeNumber}</div>
       </div>
     </card>`
 }
 
 function generateEngineerHtml(data) {
+  // if no engineers, return blank string
+  if (!data) {
+    return '';
+  }
+
   let htmlString = ``;
 
   data.forEach(engineer => {
@@ -34,19 +39,24 @@ function generateEngineerHtml(data) {
 }
 
 function generateInternHtml(data) {
+  // if no interns, return blank string
+  if (!data) {
+    return '';
+  }
+
   let htmlString = ``;
 
   data.forEach(intern => {
     htmlString += `
     <card class="intern">
       <div class="title-container">
-        <h2 class="card-name">${intern.name}</h2>
+        <h2 class="card-name">${intern.getName()}</h2>
         <div class="title"><img src="./assets/images/intern-icon.svg" alt="" class="title-icon">Intern</div>
       </div>
       <div class="detail-container">
-        <div class="id">ID: ${intern.id}</div>
-        <div class="email">Email: <a href="mailto: ${intern.email}">${intern.email}</a></div>
-        <div class="school">School: ${intern.school}</div>
+        <div class="id">ID: ${intern.getId()}</div>
+        <div class="email">Email: <a href="mailto: ${intern.getEmail()}">${intern.getEmail()}</a></div>
+        <div class="school">School: ${intern.getSchool()}</div>
       </div>
     </card>`
   });
@@ -55,6 +65,8 @@ function generateInternHtml(data) {
 }
 
 function generatePageHtml(teamData) {
+  const [manager, engineers, interns] = teamData;
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,9 +82,9 @@ function generatePageHtml(teamData) {
   </header>
 
   <main>
-    ${generateManagerHtml(teamData.manager)}
-    ${generateEngineerHtml(teamData.engineers)}
-    ${generateInternHtml(teamData.interns)}
+    ${generateManagerHtml(manager)}
+    ${generateEngineerHtml(engineers)}
+    ${generateInternHtml(interns)}
   </main>
 </body>
 </html>

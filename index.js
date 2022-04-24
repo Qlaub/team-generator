@@ -5,7 +5,6 @@ const Manager = require('./lib/Manager');
 const inquirer = require('inquirer');
 const fs = require('fs');
 const generateHtml = require('./utils/generateHtml');
-const { rejects } = require('assert');
 
 let teamData = {
   manager: undefined,
@@ -196,7 +195,12 @@ function internPrompt() {
   ]);
 }
 
-function addEmployeePrompts() {
+function addEmployeePrompts(team) {
+  if (!team[1] && !team[2]) {
+    team[1] = [];
+    team[2] = [];
+  }
+
   return inquirer
   .prompt([
     {
@@ -217,17 +221,19 @@ function addEmployeePrompts() {
   })
   .then(data => {
     // guard clause for if team is finished being built
-    if (!data) return;
+    if (!data) {
+      return team;
+    }
     // last selection was to add an engineer
     if (data.github) {
-      teamData.engineers.push(data);
+      team[1].push(new Engineer(data.name, data.id, data.email, data.github));
     }
     // last selection was to add an intern
     if (data.school) {
-      teamData.interns.push(data);
+      team[2].push(new Intern(data.name, data.id, data.email, data.school));
     }
 
-    return addEmployeePrompts();
+    return addEmployeePrompts(team);
   })
 }
 
@@ -248,6 +254,7 @@ function writeFile(html) {
 
 function copyFiles() {
   return new Promise((resolve, reject) => {
+    // copy css from src
     fs.copyFile('./src/assets/css/style.css', './dist/assets/css/style.css', err => {
       if (err) {
         reject(err);
@@ -258,6 +265,7 @@ function copyFiles() {
         message: 'style.css copied to dist/assets/css'
       })
     })
+    // copy engineer icon from src
     fs.copyFile('./src/assets/images/engineer-icon.svg', './dist/assets/images/engineer-icon.svg', err => {
       if (err) {
         reject(err);
@@ -268,6 +276,7 @@ function copyFiles() {
         message: 'engineer icon copied to dist/assets/images'
       })
     })
+    // copy manager icon from src
     fs.copyFile('./src/assets/images/manager-icon.svg', './dist/assets/images/manager-icon.svg', err => {
       if (err) {
         reject(err);
@@ -278,6 +287,7 @@ function copyFiles() {
         message: 'manager icon copied to dist/assets/images'
       })
     })
+    // copy intern icon from src
     fs.copyFile('./src/assets/images/intern-icon.svg', './dist/assets/images/intern-icon.svg', err => {
       if (err) {
         reject(err);
@@ -296,20 +306,38 @@ function init() {
 }
 
 // Function call to initialize app
+// init()
+//   .then(managerData => {
+//     team.manager = managerData
+//   })
+//   .then(addEmployeePrompts)
+//   .then(() => {
+//     return generateHtml(teamData);
+//   })
+//   .then(html => {
+//     return writeFile(html);
+//   })
+//   .then(copyFiles)
+//   .then()
+//   .catch(err => {
+//     console.log(err);
+//   })
+
 init()
   .then(managerData => {
-    teamData.manager = managerData
+    let team = [];
+    const manager = new Manager(managerData.name, managerData.id, managerData.email, managerData.office);
+    team.push(manager);
+    return addEmployeePrompts(team);
   })
-  .then(addEmployeePrompts)
-  .then(() => {
-    return generateHtml(teamData);
+  .then(team => {
+    return generateHtml(team);
   })
   .then(html => {
     return writeFile(html);
   })
-  .then(() => {
-    return copyFiles();
-  })
+  .then(copyFiles)
+  .then()
   .catch(err => {
     console.log(err);
   })
