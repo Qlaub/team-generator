@@ -24,13 +24,13 @@ function generateEngineerHtml(data) {
     htmlString += `
     <card class="engineer">
       <div class="title-container">
-        <h2 class="card-name">${engineer.name}</h2>
+        <h2 class="card-name">${engineer.getName()}</h2>
         <div class="title"><img src="./assets/images/engineer-icon.svg" alt="" class="title-icon">Engineer</div>
       </div>
       <div class="detail-container">
-        <div class="id">ID: ${engineer.id}</div>
-        <div class="email">Email: <a href="mailto: ${engineer.email}">${engineer.email}</a></div>
-        <div class="github">GitHub: <a href="https://github.com/${engineer.github}">${engineer.github}</a></div>
+        <div class="id">ID: ${engineer.getId()}</div>
+        <div class="email">Email: <a href="mailto: ${engineer.getEmail()}">${engineer.getEmail()}</a></div>
+        <div class="github">GitHub: <a href="https://github.com/${engineer.getGithub()}" target="_blank">${engineer.getGithub()}</a></div>
       </div>
     </card>`
   });
